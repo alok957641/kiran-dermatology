@@ -1,0 +1,6 @@
+export * from './services'
+export * from './testimonials'
+export * from './gallery'
+export * from './blogs'
+export * from './doctor'
+export * from './stats'

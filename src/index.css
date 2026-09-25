@@ -1,0 +1,374 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { @apply m-0 p-0 box-border; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply font-body bg-background text-textPrimary antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 { @apply font-heading text-secondary tracking-tight; }
+  h1 { @apply text-display-lg font-bold; }
+  h2 { @apply text-display-md font-semibold; }
+  h3 { @apply text-display-sm font-semibold; }
+  p { @apply text-textSecondary leading-relaxed; }
+  a { @apply text-inherit no-underline transition-colors duration-300; }
+  img { @apply max-w-full h-auto select-none; }
+  button { @apply font-body cursor-pointer; }
+  input, textarea, select { @apply font-body; }
+  ::selection { @apply bg-primary text-white; }
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #E6F7F7; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #0EA5A5 0%, #0F2C4C 100%);
+  border-radius: 10px;
+  border: 2px solid #E6F7F7;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #0B8B8B 0%, #091C2E 100%);
+}
+
+@layer components {
+  .container-custom { @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+  .container-narrow { @apply w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8; }
+  .section { @apply py-16 md:py-24 lg:py-28; }
+  .section-sm { @apply py-12 md:py-16 lg:py-20; }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium text-base
+           transition-all duration-300 ease-smooth focus:outline-none focus:ring-2 focus:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer select-none whitespace-nowrap;
+  }
+  .btn-primary { @apply btn bg-primary text-white hover:bg-primary-600 hover:shadow-glow hover:-translate-y-0.5 focus:ring-primary/50; }
+  .btn-secondary { @apply btn bg-secondary text-white hover:bg-secondary-600 hover:shadow-large hover:-translate-y-0.5 focus:ring-secondary/50; }
+  .btn-outline { @apply btn bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white hover:-translate-y-0.5 focus:ring-primary/50; }
+  .btn-ghost { @apply btn bg-transparent text-secondary hover:bg-primary-50 hover:text-primary focus:ring-primary/30; }
+  .btn-accent { @apply btn bg-accent text-secondary font-semibold hover:bg-accent-600 hover:text-white hover:shadow-large hover:-translate-y-0.5 focus:ring-accent/50; }
+
+  .card { @apply bg-white rounded-2xl shadow-soft transition-all duration-500 ease-smooth hover:shadow-large hover:-translate-y-1; }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl bg-white border border-borderLight text-textPrimary
+           placeholder:text-textMuted transition-all duration-300
+           focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20
+           disabled:bg-gray-50 disabled:cursor-not-allowed;
+  }
+  .label-field { @apply block text-sm font-medium text-textPrimary mb-2; }
+
+  .badge { @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase; }
+  .badge-primary { @apply badge bg-primary-50 text-primary-700; }
+  .badge-accent { @apply badge bg-accent-50 text-accent-700; }
+  .badge-success { @apply badge bg-green-50 text-green-700; }
+  .badge-warning { @apply badge bg-amber-50 text-amber-700; }
+  .badge-danger { @apply badge bg-red-50 text-red-700; }
+
+  .text-gradient { @apply bg-gradient-to-r from-primary via-primary-600 to-secondary bg-clip-text text-transparent; }
+  .glass { @apply bg-white/80 backdrop-blur-xl border border-white/40; }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .perspective-1000 { perspective: 1000px; }
+  .text-shadow-md { text-shadow: 0 2px 8px rgba(15, 44, 76, 0.2); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+
+/* ============================================
+   RICH TEXT EDITOR (Quill)
+   ============================================ */
+
+.rich-editor-wrapper .ql-toolbar {
+  border: none !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  background: #f8fafc;
+  padding: 10px 12px;
+}
+
+.rich-editor-wrapper .ql-container {
+  border: none !important;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+}
+
+.rich-editor-wrapper .ql-editor {
+  min-height: 300px;
+  padding: 16px 20px;
+  line-height: 1.7;
+  color: #0f2c4c;
+}
+
+.rich-editor-wrapper .ql-editor.ql-blank::before {
+  color: #94a3b8;
+  font-style: normal;
+}
+
+.rich-editor-wrapper .ql-editor h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 1.25rem 0 0.75rem;
+}
+
+.rich-editor-wrapper .ql-editor h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1rem 0 0.5rem;
+}
+
+.rich-editor-wrapper .ql-editor p {
+  margin-bottom: 0.75rem;
+}
+
+.rich-editor-wrapper .ql-editor ul,
+.rich-editor-wrapper .ql-editor ol {
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+}
+
+.rich-editor-wrapper .ql-editor blockquote {
+  border-left: 4px solid #0ea5a5;
+  padding-left: 1rem;
+  color: #4a5568;
+  font-style: italic;
+  margin: 1rem 0;
+}
+
+.rich-editor-wrapper .ql-snow .ql-stroke {
+  stroke: #64748b;
+}
+
+.rich-editor-wrapper .ql-snow .ql-fill,
+.rich-editor-wrapper .ql-snow .ql-stroke.ql-fill {
+  fill: #64748b;
+}
+
+.rich-editor-wrapper .ql-snow .ql-picker {
+  color: #64748b;
+}
+
+.rich-editor-wrapper .ql-snow .ql-active .ql-stroke,
+.rich-editor-wrapper .ql-snow button:hover .ql-stroke {
+  stroke: #0ea5a5;
+}
+
+.rich-editor-wrapper .ql-snow .ql-active .ql-fill,
+.rich-editor-wrapper .ql-snow button:hover .ql-fill {
+  fill: #0ea5a5;
+}
+
+
+
+/* ============================================
+   BLOG PROSE STYLES (Rich HTML content)
+   ============================================ */
+
+.prose-custom {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: #4a5568;
+}
+
+.prose-custom h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0f2c4c;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.prose-custom h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: #0f2c4c;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.prose-custom h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #0f2c4c;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose-custom p {
+  margin-bottom: 1.25rem;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: #4a5568;
+}
+
+.prose-custom strong {
+  font-weight: 600;
+  color: #0f2c4c;
+}
+
+.prose-custom em {
+  font-style: italic;
+}
+
+.prose-custom u {
+  text-decoration: underline;
+}
+
+.prose-custom s {
+  text-decoration: line-through;
+}
+
+.prose-custom ul,
+.prose-custom ol {
+  margin-bottom: 1.25rem;
+  padding-left: 1.75rem;
+}
+
+.prose-custom ul {
+  list-style: disc;
+}
+
+.prose-custom ol {
+  list-style: decimal;
+}
+
+.prose-custom li {
+  margin-bottom: 0.5rem;
+  line-height: 1.75;
+  color: #4a5568;
+}
+
+.prose-custom li::marker {
+  color: #0ea5a5;
+}
+
+.prose-custom blockquote {
+  border-left: 4px solid #0ea5a5;
+  padding: 0.75rem 0 0.75rem 1.5rem;
+  margin: 1.5rem 0;
+  background: #f0fbfb;
+  border-radius: 0 0.75rem 0.75rem 0;
+  font-style: italic;
+  color: #4a5568;
+}
+
+.prose-custom a {
+  color: #0ea5a5;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+
+.prose-custom a:hover {
+  color: #0b8b8b;
+}
+
+.prose-custom code {
+  background: #f0fbfb;
+  color: #0ea5a5;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.375rem;
+  font-size: 0.9em;
+  font-family: 'Courier New', monospace;
+}
+
+.prose-custom pre {
+  background: #0f2c4c;
+  color: #ffffff;
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  margin-bottom: 1.25rem;
+}
+
+.prose-custom pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+.prose-custom hr {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 2rem 0;
+}
+
+.prose-custom img {
+  border-radius: 1rem;
+  margin: 1.5rem 0;
+}
+
+/* Alignment from editor */
+.prose-custom .ql-align-center {
+  text-align: center;
+}
+
+.prose-custom .ql-align-right {
+  text-align: right;
+}
+
+.prose-custom .ql-align-justify {
+  text-align: justify;
+}
+
+
+/* ============================================
+   CIRCULAR CAROUSEL — SMOOTH ROTATION
+   ============================================ */
+
+@keyframes orbit {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes orbit-reverse {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+.orbit-slow {
+  animation: orbit 70s linear infinite;
+  transform-origin: center center;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.orbit-reverse-slow {
+  animation: orbit-reverse 70s linear infinite;
+  transform-origin: center center;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Pause on card hover */
+.carousel-card:hover .orbit-slow,
+.carousel-card:hover .orbit-reverse-slow,
+.orbit-reverse-slow:hover {
+  animation-play-state: paused;
+}

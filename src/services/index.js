@@ -1,0 +1,8 @@
+export * as appointmentService from './appointmentService'
+export * as contactService from './contactService'
+export * as serviceService from './serviceService'
+export * as testimonialService from './testimonialService'
+export * as blogService from './blogService'
+export * as galleryService from './galleryService'
+export * as storageService from './storageService'
+export * as authService from './authService'
