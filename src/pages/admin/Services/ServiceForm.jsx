@@ -9,6 +9,7 @@ import AdminPageHeader from '../../../components/admin/AdminPageHeader'
 import ImageUploader from '../../../components/admin/ImageUploader'
 import Input from '../../../components/ui/Input'
 import Textarea from '../../../components/ui/Textarea'
+import Select from '../../../components/ui/Select'
 import Button from '../../../components/ui/Button'
 import Loader from '../../../components/ui/Loader'
 import {
@@ -19,16 +20,28 @@ import {
 import { supabase } from '../../../lib/supabase'
 import { slugify } from '../../../utils/slugify'
 
-
-
-
-
+/* ============================================
+   CATEGORIES — Dropdown me dikhengi
+   ============================================ */
+const CATEGORIES = [
+  { label: 'Hair & Scalp', value: 'hair' },
+  { label: 'Laser & Energy', value: 'laser' },
+  { label: 'Aesthetic Dermatology', value: 'aesthetic' },
+  { label: 'Acne & Scar', value: 'acne' },
+  { label: 'Pigmentation', value: 'pigmentation' },
+  { label: 'Vitiligo', value: 'vitiligo' },
+  { label: 'Skin Procedures', value: 'procedures' },
+]
 
 // Icon options from lucide
 const ICON_OPTIONS = [
   'Sparkles', 'Scissors', 'Zap', 'Sun', 'Shield', 'Circle',
   'Bug', 'Baby', 'Stethoscope', 'Heart', 'Star', 'Award',
-  'Droplet', 'Wind', 'Flower', 'Leaf',
+  'Droplet', 'Wind', 'Flower', 'Leaf', 'UserRound', 'User',
+  'CircleDashed', 'ScanFace', 'Droplets', 'Sprout', 'Scan',
+  'SunMedium', 'Eraser', 'Grid3X3', 'Smile', 'Waves', 'Clock',
+  'CircleAlert', 'Target', 'Layers', 'CircleDot', 'Palette',
+  'CircleX', 'Eye', 'Microscope',
 ]
 
 export default function ServiceForm() {
@@ -50,6 +63,7 @@ export default function ServiceForm() {
   } = useForm({
     defaultValues: {
       slug: '',
+      category: 'hair',
       name: '',
       short_description: '',
       icon: 'Sparkles',
@@ -110,6 +124,7 @@ export default function ServiceForm() {
         // Convert arrays to field-array format
         reset({
           ...data,
+          category: data.category || 'hair',
           conditions: (data.conditions || []).map((v) => ({ value: v })),
           procedures: (data.procedures || []).map((v) => ({ value: v })),
           faqs: data.faqs || [{ question: '', answer: '' }],
@@ -132,6 +147,7 @@ export default function ServiceForm() {
       // Clean and convert
       const payload = {
         slug: data.slug,
+        category: data.category, // ✅ Category add kiya
         name: data.name,
         short_description: data.short_description,
         icon: data.icon,
@@ -209,6 +225,16 @@ export default function ServiceForm() {
               </h3>
 
               <div className="space-y-4">
+                {/* ✅ Category Dropdown — Name se pehle */}
+                <Select
+                  label="Category"
+                  placeholder="Select a category"
+                  options={CATEGORIES}
+                  required
+                  error={errors.category?.message}
+                  {...register('category', { required: 'Category is required' })}
+                />
+
                 <Input
                   label="Service Name"
                   placeholder="e.g. Acne & Scar Treatment"
@@ -379,7 +405,7 @@ export default function ServiceForm() {
 
           {/* RIGHT — Sidebar (1 col) */}
           <div className="space-y-6">
-            {/* Save Card */}
+            {/* Publish Card */}
             <div className="bg-white rounded-2xl border border-slate-200 p-6">
               <h3 className="font-heading font-semibold text-slate-800 text-base mb-4">
                 Publish
@@ -406,7 +432,7 @@ export default function ServiceForm() {
                 label="Display Order"
                 type="number"
                 placeholder="0"
-                hint="Lower numbers appear first"
+                hint="Lower numbers appear first (e.g. 201, 202, 301...)"
                 className="mt-4"
                 {...register('display_order')}
               />
@@ -465,7 +491,7 @@ export default function ServiceForm() {
               </p>
             </div>
 
-            {/* Meta */}
+            {/* Session Info */}
             <div className="bg-white rounded-2xl border border-slate-200 p-6">
               <h3 className="font-heading font-semibold text-slate-800 text-base mb-4">
                 Session Info
