@@ -1,16 +1,21 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Stethoscope } from 'lucide-react'
 import ServiceCard from '../../cards/ServiceCard'
-import services from '../../../data/services'
+import { SkeletonCard } from '../../ui/Skeleton'
+import EmptyState from '../../ui/EmptyState'
+import { useServices } from '../../../hooks/useServices'
 
 export default function RelatedServices({ currentService }) {
-  // Get 3 other services
+  const { services, loading } = useServices(false)
+
+  // Filter out current service, take 3 others
   const related = services
-    .filter((s) => s.id !== currentService.id)
+    .filter((s) => s.id !== currentService.id && s.slug !== currentService.slug)
     .slice(0, 3)
 
-  if (related.length === 0) return null
+  // Hide section if no related services AND not loading
+  if (!loading && related.length === 0) return null
 
   return (
     <section className="section bg-gradient-to-b from-primary-50/30 to-background relative overflow-hidden">
@@ -52,11 +57,30 @@ export default function RelatedServices({ currentService }) {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {related.map((service, i) => (
-            <ServiceCard key={service.id} service={service} index={i} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(3)].map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
+        ) : related.length === 0 ? (
+          <EmptyState
+            icon={Stethoscope}
+            title="No related services"
+            description="Check out all our services on the services page."
+            action={
+              <Link to="/services" className="btn-primary">
+                View All Services
+              </Link>
+            }
+          />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {related.map((service, i) => (
+              <ServiceCard key={service.id} service={service} index={i} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )
